@@ -4,9 +4,11 @@ import './modal.css'
 function Modal (props) {
   return (
     <div className="Modal">
-      <p>Esto es un modal</p>
       {props.children}
-      <button onClick={props.handleCloseModal}>Cerrar</button>
+      <button className='Modal-close'
+              onClick={props.handleCloseModal}
+      />
+
     </div>
   )
 }

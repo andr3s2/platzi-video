@@ -5,13 +5,18 @@ import Title from '../components/title'
 import Timer from '../components/timer'
 import PlayPause from '../components/play-pause'
 import VideoControl from '../components/video-player-controls'
+import ProgressBar from '../components/progress-bar'
+import Spinner from '../components/spinner'
+import Volume from '../components/volume'
+import FullScreen from '../components/full-screen'
 
 class VideoPlayer extends React.Component {
 
   state = {
-    pause: true,
+    pause: false,
     duration: 0,
-    currentTime: 0
+    currentTime: 0,
+    loading: false
   }
 
   togglePlay = (event) => {
@@ -40,20 +45,57 @@ class VideoPlayer extends React.Component {
     })
   }
 
+  handleProgressChange = event => {
+    this.video.currentTime = event.target.value
+  }
+
+  handleSeeking = event => {
+    this.setState({
+      loading: true
+    })
+  }
+  handleSeeked = event => {
+    this.setState({
+      loading: false
+    })
+  }
+
+  handleVolumeChange = event => {
+    this.video.volume = event.target.value
+  }
+
+  handleFullScreenClick = event => {
+    if (!document.webkitIsFullScreen) {
+      this.player.webkitRequestFullScreen()
+    } else {
+      document.webkitCancelFullScreen()
+    }
+  }
+
+  setRef = element => {
+    this.player = element
+  }
+
   render () {
     return (
-      <VideoPlayerLayout>
-        <Title title='Hola!!'/>
+      <VideoPlayerLayout setRef={this.setRef}>
+        <Title title={this.props.title}/>
         <VideoControl>
           <PlayPause pause={this.state.pause} handleClick={this.togglePlay}/>
           <Timer duration={this.state.duration} currentTime={this.state.currentTime}/>
+          <ProgressBar duration={this.state.duration} value={this.state.currentTime} handleProgressChange={this.handleProgressChange}/>
+          <Volume handleVolumeChange={this.handleVolumeChange}/>
+          <FullScreen handleFullScreenClick={this.handleFullScreenClick}/>
         </VideoControl>
+        <Spinner active={this.state.loading}/>
         <Video
           pause={this.state.pause}
-          src="http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"
+          src={this.props.src}
           handleLoadedMetadata={this.handleLoadedMetadata}
           handleTimeUpdate={this.handleTimeUpdate}
           autoplay={this.props.autoplay}
+          handleSeeking={this.handleSeeking}
+          handleSeeked={this.handleSeeked}
         />
       </VideoPlayerLayout>
     )

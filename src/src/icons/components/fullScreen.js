@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './icon'
 
-function FullScreen (props) {
+function FullScreenIcon (props) {
 
   return (
     <Icon {...props}>
@@ -14,4 +14,4 @@ function FullScreen (props) {
 
 }
 
-export default FullScreen
+export default FullScreenIcon
