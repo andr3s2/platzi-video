@@ -27,7 +27,6 @@ class SearchContainer extends React.Component {
   }
 
   render () {
-
     return (
       <Search
         setRef={this.setInputRef}
