@@ -10,4 +10,5 @@ function PauseIcon (props) {
   )
 }
 
+
 export default PauseIcon
